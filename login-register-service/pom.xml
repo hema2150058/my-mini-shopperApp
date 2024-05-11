@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.mini</groupId>
-	<artifactId>userloginservice</artifactId>
+	<artifactId>login-register-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>user-login</name>
-	<description>user-login-service of Mini-shopper application.</description>
+	<description>user-login of Mini-shopper application.</description>
 	<properties>
 		<java.version>17</java.version>
 	<spring-cloud.version>2021.0.8</spring-cloud.version>
