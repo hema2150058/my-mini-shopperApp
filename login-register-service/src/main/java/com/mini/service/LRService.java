@@ -5,9 +5,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.management.RuntimeErrorException;
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.SystemMenuBar;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -67,7 +69,7 @@ public class LRService implements UserDetailsService {
 		}
 		log.info("line 67"+user.getUserEmail()+ user.getUserName()+ getAuthority(user));
 		return new org.springframework.security.core.userdetails.User
-				(user.getUserEmail(), user.getUserName(), getAuthority(user));
+				(user.getUserEmail(), user.getUserPassword(), getAuthority(user));
 	}
 	
 	private Set<SimpleGrantedAuthority> getAuthority(User user) {
@@ -164,7 +166,7 @@ public class LRService implements UserDetailsService {
 	}
 	
 	public JwtResponse loginNewUser(JwtRequest jwtRequest) throws UserNotFoundException {
-		
+		try {
 		log.info(jwtRequest.getEmailId());
 		Boolean b = this.existsByUserEmail(jwtRequest.getEmailId());
 		log.info(b.toString());
@@ -174,10 +176,21 @@ public class LRService implements UserDetailsService {
 		} else {
 
 			final UserDetails userDetails = loadUserByUsername(jwtRequest.getEmailId());
-			log.info("User logged in Successfully");
-			return new JwtResponse(userDetails.getUsername(), userDetails.getPassword(), jwtTokenUtil.generateToken(userDetails),
-							jwtTokenUtil.getCurrentTime(), jwtTokenUtil.getExpirationTime());
+			User user = userRepo.findByUserEmail(jwtRequest.getEmailId());
+			log.info(user.getUserName());
+			if ((jwtRequest.getUserPassword()).equals(userDetails.getPassword())) {
+				return 
+						new JwtResponse(userDetails.getUsername(), user.getUserName(), jwtTokenUtil.generateToken(userDetails),
+								jwtTokenUtil.getCurrentTime(), jwtTokenUtil.getExpirationTime());
+					
+			}
+			
 		}
+		}
+		catch(BadCredentialsException e) {
+			throw new UsernameNotFoundException("not");
+		}
+		return null;
 	}
 	
 }

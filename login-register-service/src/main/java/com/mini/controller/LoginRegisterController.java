@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,6 +37,7 @@ import com.mini.util.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @Slf4j
 public class LoginRegisterController {
 
@@ -68,6 +70,9 @@ public class LoginRegisterController {
 
 	@PostMapping(path= "/signin", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE} )
 	public ResponseEntity<Object> createAuthorizationToken(@RequestBody JwtRequest jwtRequest) throws UserNotFoundException {
+		if(loginRegisterService.loginNewUser(jwtRequest)==null) {
+			throw new UserNotFoundException("Bad Credentails. Enter Correct credentials");
+		}
 		return new ResponseEntity<>(loginRegisterService.loginNewUser(jwtRequest),HttpStatus.OK);
 	}
 
