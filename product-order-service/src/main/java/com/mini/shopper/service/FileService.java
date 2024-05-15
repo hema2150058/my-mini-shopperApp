@@ -142,7 +142,7 @@ public class FileService {
 	            contentStream.beginText();
 	            contentStream.newLineAtOffset(100, page.getMediaBox().getHeight() - 300);
 	            contentStream.setNonStrokingColor(Color.BLACK);
-	            contentStream.showText("Total Price             :  $" + orderDetailsRes.getTotalPrice());
+	            contentStream.showText("Total Price             :  Rs. " + orderDetailsRes.getTotalPrice());
 	            contentStream.endText();
 
 	            contentStream.moveTo(150, 500);
@@ -188,7 +188,7 @@ public class FileService {
 	                contentStream.newLineAtOffset(100, y);
 	                contentStream.showText(product.getProductName());
 	                contentStream.newLineAtOffset(270, 0);
-	                contentStream.showText("$" + product.getPrice());
+	                contentStream.showText("Rs. " + product.getPrice());
 	                contentStream.newLineAtOffset(100, 0);
 	                contentStream.showText(String.valueOf(product.getQuantity()));
 	                contentStream.endText();

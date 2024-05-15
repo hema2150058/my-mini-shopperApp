@@ -84,7 +84,7 @@ public class CartController {
 		List<CartResDto> cart = cartService.getCart(userId);
 		if (cart.isEmpty()) {
 			log.error("Cart with userId: "+userId+ " not found");
-			throw new CartNotFoundException("Cart with userId: "+userId+ " not found.");
+			return new ResponseEntity<>(cart, HttpStatus.OK);
 		} else {
 			log.info("Successfully retrieved Cart Items of user with userId: "+userId);
 			return new ResponseEntity<>(cart, HttpStatus.OK);
