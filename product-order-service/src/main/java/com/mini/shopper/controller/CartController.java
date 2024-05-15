@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +27,7 @@ import com.mini.shopper.service.CartService;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @Slf4j
 public class CartController {
 
@@ -48,15 +50,15 @@ public class CartController {
 	}
 
 	@PostMapping(path = "/isItemInCart")
-	public ResponseEntity<?> isItemInCart(@RequestBody CartItemReq isitemincart) throws ServerException {
+	public boolean isItemInCart(@RequestBody CartItemReq isitemincart) throws ServerException {
 		Cart cartItem = cartService.isItemInCart(isitemincart);
 		{
 			if (cartItem == null) {
 				log.error("Product not found in the cart");
-				return new ResponseEntity<>("Product not found in the cart", HttpStatus.NOT_FOUND);
+				return false;
 			} else {
 				log.info("Product is in the cart");
-				return new ResponseEntity<>(cartItem, HttpStatus.OK);
+				return true;
 			}
 		}
 	}
@@ -104,7 +106,7 @@ public class CartController {
 
 	@DeleteMapping("/removeFromCart")
 	public ResponseEntity<String> removeProductFromCart(@RequestBody CartItemReq removefromcartreq) {
-
+		System.out.println(removefromcartreq);
 		try {
 			cartService.removeProductFromCart(removefromcartreq.getUserId(), removefromcartreq.getProductId());
 			log.info("Product removed from cart successfully");

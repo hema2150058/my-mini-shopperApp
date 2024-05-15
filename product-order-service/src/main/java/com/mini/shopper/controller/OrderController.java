@@ -9,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +29,7 @@ import com.mini.shopper.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @Slf4j
 public class OrderController {
 
@@ -87,7 +89,7 @@ public class OrderController {
 		try {
 			String s= fileService.uploadToOrder(file);
 			log.info(s);
-			return ResponseEntity.ok("file uploaded and the "+s);
+			return ResponseEntity.ok(s);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("error uploading file");

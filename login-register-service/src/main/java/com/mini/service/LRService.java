@@ -178,12 +178,18 @@ public class LRService implements UserDetailsService {
 			final UserDetails userDetails = loadUserByUsername(jwtRequest.getEmailId());
 			User user = userRepo.findByUserEmail(jwtRequest.getEmailId());
 			log.info(user.getUserName());
+			System.out.println("jwt password "+ jwtRequest.getUserPassword() + "userdeatils password : "+ userDetails.getPassword());
 			if ((jwtRequest.getUserPassword()).equals(userDetails.getPassword())) {
 				return 
 						new JwtResponse(userDetails.getUsername(), user.getUserName(), jwtTokenUtil.generateToken(userDetails),
 								jwtTokenUtil.getCurrentTime(), jwtTokenUtil.getExpirationTime());
 					
+			}else if (passwordEncoder.matches(jwtRequest.getUserPassword(), userDetails.getPassword())){
+				return 
+						new JwtResponse(userDetails.getUsername(), user.getUserName(), jwtTokenUtil.generateToken(userDetails),
+								jwtTokenUtil.getCurrentTime(), jwtTokenUtil.getExpirationTime());
 			}
+			
 			
 		}
 		}
