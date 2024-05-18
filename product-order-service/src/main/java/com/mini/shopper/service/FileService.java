@@ -86,7 +86,7 @@ public class FileService {
 	        PlaceOrderReq placeOrderReq = new PlaceOrderReq(userId, billingName, billingPno, billingAdress);
 	        PlaceOrderRes placeOrderRes = orderService.placeOrder(placeOrderReq);
 	        System.out.println(placeOrderRes.getOrderNumber());
-	        return "orderNumber is "+placeOrderRes.getOrderNumber();
+	        return ""+placeOrderRes.getOrderNumber();
 	        // Call placeOrder service method with the PlaceOrderReq object
 	    }
 	 
