@@ -20,6 +20,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.mini.filter.JwtRequestFilter;
 import com.mini.service.LRService;
 
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Contact;
+import io.swagger.v3.oas.models.info.Info;
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
@@ -30,6 +34,12 @@ public class SecurityConfigurer {
 
 	@Autowired
 	private LRService userService;
+	
+	private static final String[] WHITE_LIST_URL = { "/api/v1/auth/**", "/v2/api-docs", "/v3/api-docs",
+			"/v3/api-docs/**", "/swagger-resources", "/swagger-resources/**", "/configuration/ui",
+			"/configuration/security", "/swagger-ui/**", "/webjars/**", "/swagger-ui.html", "/api/auth/**",
+			"/api/test/**", "/authenticate" };
+
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
@@ -40,6 +50,7 @@ public class SecurityConfigurer {
 			registry.requestMatchers("/register", "/signin","/createNewRole","/validate","/getCustomerDetails","/example").permitAll();
 			registry.requestMatchers("/getAllCustomersData","getAll").hasRole("SHOPPER");
 			registry.requestMatchers("/updateAddress").hasRole("CUSTOMER");
+			registry.requestMatchers(WHITE_LIST_URL).permitAll();
 			registry.requestMatchers(HttpHeaders.ALLOW).permitAll();
 			registry.anyRequest().authenticated();
 		});
@@ -65,4 +76,12 @@ public class SecurityConfigurer {
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
+	
+//	@Bean
+//	public OpenAPI openAPI() {
+//		return new OpenAPI().info(new Info().title("MiniShopper Login Register Service")
+//											.description("Minishopper login register microservice")
+//											.contact(new Contact().name("miniShopper"))
+//											.version("1.0.0."));
+//	}
 }
