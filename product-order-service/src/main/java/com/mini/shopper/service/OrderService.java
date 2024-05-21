@@ -118,6 +118,7 @@ public class OrderService {
 			product.setPrice(i.getPrice());
 			product.setProductName(i.getProductId().getProductName());
 			product.setProductDesc(i.getProductId().getProductDesc());
+			product.setImageUrl(i.getProductId().getImageUrl());
 			product.setQuantity(i.getQuantity());
 			orderedProductsRes.add(product);
 			
