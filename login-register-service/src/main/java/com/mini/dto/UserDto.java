@@ -1,12 +1,7 @@
 package com.mini.dto;
 
 import java.sql.Timestamp;
-import java.util.Set;
-
 import com.mini.model.Address;
-import com.mini.model.Role;
-
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

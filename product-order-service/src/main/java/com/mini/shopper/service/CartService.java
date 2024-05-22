@@ -6,8 +6,6 @@ import java.util.List;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
@@ -41,7 +39,6 @@ public class CartService {
 		Product product = productService.getProductById(addtocart.getProductId());
 		log.info("products in the cart are: "+ product);
 		if (product == null) {
-//			throw new CartNotFoundException();
 			return null;
 		} else {
 			Cart cart = new Cart();
@@ -107,7 +104,6 @@ public class CartService {
 
 		Product product = productService.getProductById(productId);
 		log.info(product.toString());
-//		Cart cart = cartRepo.findByProductIdAndUserId(product, userId);
 		cartRepo.deleteByProductIdAndUserId(product, userId);
 		
 		

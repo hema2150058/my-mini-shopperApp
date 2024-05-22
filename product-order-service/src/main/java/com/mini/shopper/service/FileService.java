@@ -1,15 +1,10 @@
 package com.mini.shopper.service;
 
-import org.apache.pdfbox.contentstream.operator.color.SetColor;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
-import org.apache.pdfbox.pdmodel.documentinterchange.taggedpdf.PDLayoutAttributeObject;
-import org.apache.pdfbox.pdmodel.graphics.color.PDGamma;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
-import org.apache.pdfbox.pdmodel.interactive.form.PDChoice;
-import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.font.Standard14Fonts;
 
@@ -23,7 +18,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.apache.poi.sl.usermodel.Background;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -32,11 +26,13 @@ import com.mini.shopper.dto.OrderDetailsRes;
 import com.mini.shopper.dto.OrderedProductDetails;
 import com.mini.shopper.dto.PlaceOrderReq;
 import com.mini.shopper.dto.PlaceOrderRes;
-import com.mini.shopper.model.Cart;
 import com.mini.shopper.repo.CartRepo;
 import com.mini.shopper.repo.OrderRepo;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class FileService {
 
 	@Autowired
@@ -85,7 +81,7 @@ public class FileService {
 	        String billingAdress = row.getCell(3).getStringCellValue();
 	        PlaceOrderReq placeOrderReq = new PlaceOrderReq(userId, billingName, billingPno, billingAdress);
 	        PlaceOrderRes placeOrderRes = orderService.placeOrder(placeOrderReq);
-	        System.out.println(placeOrderRes.getOrderNumber());
+	        log.info(""+placeOrderRes.getOrderNumber());
 	        return ""+placeOrderRes.getOrderNumber();
 	        // Call placeOrder service method with the PlaceOrderReq object
 	    }
@@ -157,15 +153,7 @@ public class FileService {
 	            contentStream.setNonStrokingColor(0.851f,0.42f,0.102f);
 	            contentStream.showText("Products:");
 	            contentStream.endText();
-	            
-	           
-//	            contentStream.showText("Order Date: " + orderDetailsRes.getOrderDate());
-//	            contentStream.newLine();
-//	            contentStream.showText("Customer Name: " + orderDetailsRes.getCustomerName());
-//	            contentStream.newLine();
-//	            contentStream.showText("Total Price: $" + orderDetailsRes.getTotalPrice());
-//	            contentStream.endText();
-	 
+	             
 	            // Add table headers
 	            contentStream.beginText();
 	            contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA_BOLD), 15);
@@ -221,9 +209,7 @@ public class FileService {
 	            document.close();
 	            
 	         // Convert ByteArrayOutputStream to ByteArrayInputStream
-	            ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
-	     
-	            return inputStream;
+	            return new ByteArrayInputStream(outputStream.toByteArray());
 	        }	
 	
 }	

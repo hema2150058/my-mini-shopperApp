@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,7 @@ import com.mini.shopper.repo.OrderedProductRepo;
 import com.mini.shopper.repo.ProductRepo;
 
 @Service
+@Slf4j
 public class OrderService {
 
 	@Autowired
@@ -69,10 +71,10 @@ public class OrderService {
 			totalPrice += (i.getProductId().getPrice())* (i.getQuantity());
 		}
 		
-		System.out.println(totalPrice);
+		log.info(""+totalPrice);
 		newOrder.setTotalPrice(totalPrice);
 		
-		System.out.println(newOrder.getTotalPrice());
+		log.info(""+newOrder.getTotalPrice());
 		orderRepo.save(newOrder);
 		
 		for (Cart i : cart) {
@@ -131,7 +133,7 @@ public class OrderService {
 	public List<OrderDetailsRes> getPurchaseHistory(String userId) {
 		
 		List<Order> orders = orderRepo.findAllByUserId(userId);
-		System.out.println(orders);
+		log.info(""+orders);
 		
 	    List<OrderDetailsRes> purchaseHistory = new ArrayList<>();
 	    
@@ -173,13 +175,12 @@ public class OrderService {
 	public ResponseEntity<String> changeOrderStatusToSuccess(Long orderNumber){
 		
 		List<Order> order = orderRepo.findByOrderNumber(orderNumber);
-		System.out.println("orderId is: "+ order.get(0).getOrderId());
+		log.info("orderId is: "+ order.get(0).getOrderId());
 		
 		List<OrderedProduct> orderpro = orderProductRepo.findByOrderId(order.get(0));
-		System.out.println(orderpro);
+		log.info(""+orderpro);
 		ResponseEntity<String> res = null;
 		for(OrderedProduct i : orderpro) {
-			System.out.println(i.getProductId());
 			Product product = i.getProductId();
 			if(i.getProductId().getStockQuantity()>i.getQuantity() ) {
 			product.setStockQuantity(i.getProductId().getStockQuantity()-i.getQuantity());
@@ -223,8 +224,5 @@ public class OrderService {
 				.body("Can't change the order status. Its already a successful order");
 		//admin
 	}
-	
-	//one more endpoint for user
-	//if orderstatus is pending then user can edit or delete order.
 	
 }

@@ -7,7 +7,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mini.dto.UserDto;
 import com.mini.model.Address;
 import com.mini.model.Role;
 import com.mini.model.User;
@@ -22,8 +21,6 @@ import com.mini.util.JwtUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -37,8 +34,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
-
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,7 +42,7 @@ import java.util.List;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = { UserServiceController.class, LRService.class, RoleService.class, UserService.class})
 @AutoConfigureMockMvc
-public class UserServiceControllerTest {
+class UserServiceControllerTest {
  
     @MockBean
     private LRService lrService;
@@ -101,14 +96,14 @@ public class UserServiceControllerTest {
     }
  
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         MockitoAnnotations.openMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(userServiceController).build();
         objectMapper = new ObjectMapper();
     }
  
     @Test
-    public void testGetAllUserDetails_Success() throws Exception {
+    void testGetAllUserDetails_Success() throws Exception {
         List<User> usersList = new ArrayList<>();
         usersList.add(new User(1,"user1@example.com", "FirstName1", "LastName1", "user1","password1", new Timestamp(0),Collections.singleton(new Role()), new Address()));
         usersList.add(new User(2,"user2@example.com", "FirstName2", "LastName2", "user2", "password2", new Timestamp(0), Collections.singleton(new Role()),new Address()));
@@ -124,7 +119,7 @@ public class UserServiceControllerTest {
     }
     
     @Test
-    public void testGetUserDetails_Success() throws Exception {
+    void testGetUserDetails_Success() throws Exception {
         User user = new User(1,"user1@example.com", "FirstName", "LastName", "user1","password1", new Timestamp(0),Collections.singleton(new Role()), new Address());
         when(userRepo.findByUserName(anyString())).thenReturn(user);
  
@@ -138,7 +133,7 @@ public class UserServiceControllerTest {
     }
     
     @Test
-    public void testGetUserDetails_NotFound() throws Exception {
+    void testGetUserDetails_NotFound() throws Exception {
         when(userRepo.findByUserName(anyString())).thenReturn(null);
  
         mockMvc.perform(get("/getCustomerDetails/user1")
@@ -150,7 +145,7 @@ public class UserServiceControllerTest {
     }
  
     @Test
-    public void testUpdateAddress_Success() throws Exception {
+    void testUpdateAddress_Success() throws Exception {
         Address address = new Address();
         address.setAddressLine("New Address Line");
         address.setCity("New City");
@@ -168,7 +163,7 @@ public class UserServiceControllerTest {
     }
     
     @Test
-    public void testUpdateAddress_Failure() throws Exception {
+    void testUpdateAddress_Failure() throws Exception {
         Address address = new Address();
         address.setAddressLine("New Address Line");
         address.setCity("New City");

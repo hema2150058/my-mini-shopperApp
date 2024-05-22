@@ -106,7 +106,6 @@ public class CartController {
 
 	@DeleteMapping("/removeFromCart")
 	public ResponseEntity<String> removeProductFromCart(@RequestBody CartItemReq removefromcartreq) {
-		System.out.println(removefromcartreq);
 		try {
 			cartService.removeProductFromCart(removefromcartreq.getUserId(), removefromcartreq.getProductId());
 			log.info("Product removed from cart successfully");

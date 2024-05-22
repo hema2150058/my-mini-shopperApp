@@ -5,11 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.mini.shopper.exception.ProductNotFoundException;
 import com.mini.shopper.model.Product;
 import com.mini.shopper.repo.ProductRepo;
-
-import lombok.extern.slf4j.Slf4j;
 
 @Service
 public class ProductService {

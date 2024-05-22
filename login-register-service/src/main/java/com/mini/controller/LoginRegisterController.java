@@ -1,14 +1,10 @@
 package com.mini.controller;
 
-import java.util.HashSet;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,20 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import com.mini.dto.JwtRequest;
-import com.mini.dto.JwtResponse;
-import com.mini.dto.RegisterDto;
 import com.mini.dto.UserDto;
 import com.mini.dto.ValidateStatusDto;
 import com.mini.exception.UserAlreadyExistException;
 import com.mini.exception.UserNotFoundException;
-import com.mini.model.Address;
-import com.mini.model.Role;
-import com.mini.model.User;
-import com.mini.repo.AddressRepo;
-import com.mini.repo.RoleRepo;
-import com.mini.repo.UserRepo;
 import com.mini.service.LRService;
-import com.mini.service.RoleService;
 import com.mini.util.JwtUtil;
 
 import lombok.extern.slf4j.Slf4j;
@@ -44,22 +31,10 @@ public class LoginRegisterController {
 	//login register and validate code
 
 	@Autowired
-	private PasswordEncoder passwordEncoder;
-
-	@Autowired
 	private LRService loginRegisterService;
 
 	@Autowired
 	private JwtUtil jwtTokenUtil;
-
-	@Autowired
-	private UserRepo userRepo;
-	
-	@Autowired
-	private RoleRepo roleRepo;
-	
-	@Autowired
-	private RoleService roleService;
 
 	private ValidateStatusDto validatingDTO = new ValidateStatusDto();
 

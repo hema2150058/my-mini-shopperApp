@@ -20,10 +20,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.mini.filter.JwtRequestFilter;
 import com.mini.service.LRService;
 
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Contact;
-import io.swagger.v3.oas.models.info.Info;
-
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
@@ -76,12 +72,5 @@ public class SecurityConfigurer {
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-	
-//	@Bean
-//	public OpenAPI openAPI() {
-//		return new OpenAPI().info(new Info().title("MiniShopper Login Register Service")
-//											.description("Minishopper login register microservice")
-//											.contact(new Contact().name("miniShopper"))
-//											.version("1.0.0."));
-//	}
+
 }

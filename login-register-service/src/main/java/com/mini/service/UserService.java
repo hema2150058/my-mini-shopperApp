@@ -1,14 +1,10 @@
 package com.mini.service;
 
 import java.util.List;
-import java.util.Set;
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mini.model.Address;
-import com.mini.model.Role;
 import com.mini.model.User;
 import com.mini.repo.UserRepo;
 

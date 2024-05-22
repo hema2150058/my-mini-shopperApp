@@ -1,16 +1,10 @@
 package com.mini.service;
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.management.RuntimeErrorException;
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.SystemMenuBar;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -39,12 +33,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class LRService implements UserDetailsService {
 
-	@Autowired
-	private RoleRepo roleRepo;
-	
-	@Autowired
-	private AddressRepo addressRepo;
-	
 	@Autowired
 	private UserRepo userRepo;
 	
@@ -178,7 +166,6 @@ public class LRService implements UserDetailsService {
 			final UserDetails userDetails = loadUserByUsername(jwtRequest.getEmailId());
 			User user = userRepo.findByUserEmail(jwtRequest.getEmailId());
 			log.info(user.getUserName());
-			System.out.println("jwt password "+ jwtRequest.getUserPassword() + "userdeatils password : "+ userDetails.getPassword());
 			if ((jwtRequest.getUserPassword()).equals(userDetails.getPassword())) {
 				return 
 						new JwtResponse(userDetails.getUsername(), user.getUserName(), jwtTokenUtil.generateToken(userDetails),
